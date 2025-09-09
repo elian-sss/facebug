@@ -8,7 +8,9 @@ class FeedController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = $request->user()->feed()->with('user', 'likes', 'comments')->latest()->get();
+        $posts = Posts::with(['user', 'likes', 'comments.user'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         return Inertia::render('Feed', [
             'posts' => $posts,
         ]);

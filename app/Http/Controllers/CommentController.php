@@ -12,7 +12,7 @@ class CommentController extends Controller
             $request->validate([
             'content' => 'required|string|max:1000',
             'post_id' => 'required|exists:posts,id',
-        ]);
+            ]);
 
             $comment = $request->user()->comments()->create([
                 'content' => $request->content,
@@ -50,8 +50,8 @@ class CommentController extends Controller
     {
         try {
             if ($request->user()->id !== $comment->user_id) {
-            return back()->with('error', 'Você não tem permissão para deletar este comentário.');
-        }
+                return back()->with('error', 'Você não tem permissão para deletar este comentário.');
+            }
 
             $comment->delete();
             return back()->with('success', 'Comentário deletado com sucesso.');
