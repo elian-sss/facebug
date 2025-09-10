@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -32,7 +34,7 @@ class PostController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error',  'Erro ao criar o post: ' . $e->getMessage());
-        }   
+        }
     }
 
     public function update(Request $request, Post $post)
