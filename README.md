@@ -42,7 +42,6 @@ php artisan key:generate
 ```
 
 5. Configure o banco de dados:
-   - Crie um banco de dados MySQL
    - Atualize as credenciais do banco no arquivo `.env`:
 ```env
 DB_CONNECTION=mysql
@@ -68,13 +67,6 @@ php artisan serve
 2. Inicie o servidor de desenvolvimento Vite:
 ```bash
 npm run dev
-```
-
-## Testes
-
-Execute os testes usando Pest:
-```bash
-php artisan test
 ```
 
 ## Estrutura do Banco de Dados
