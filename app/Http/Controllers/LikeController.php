@@ -10,23 +10,23 @@ class LikeController extends Controller
     {
         try {
             $request->validate([
-            'post_id' => 'required|exists:posts,id',
+            'id' => 'required|exists:posts,id',
             ]);
 
-            $like = $request->user()->likes()->where('post_id', $request->post_id)->first();
+            $like = $request->user()->likes()->where('post_id', $request->id)->first();
 
             if ($like) {
                 $like->delete();
-                return response()->json(['message' => 'Post descurtido'], 200);
+                return back()->with('success',  'Post descurtido');
             } else {
                 $request->user()->likes()->create([
-                    'post_id' => $request->post_id,
+                    'post_id' => $request->id,
                 ]);
-                return response()->json(['message' => 'Post curtido'], 201);
+                return back()->with('success', 'Post curtido');
             }
         } catch (\Exception $e) {
             return response()->json(['error' => 'Erro ao processar o like: ' . $e->getMessage()], 500);
         }
-        
+
     }
 }
