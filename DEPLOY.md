@@ -56,6 +56,25 @@ docker-compose exec app npm install
 docker-compose exec app npm run build
 ```
 
+   Após a execução do seed, os seguintes dados de exemplo estarão disponíveis:
+
+   - Usuário administrador:
+     - Email: elian@example.com
+     - Senha: password
+   
+   - Usuários de exemplo:
+     - maria@exemplo.com
+     - joao@exemplo.com
+     - ana@exemplo.com
+     - pedro@exemplo.com
+     - (+ 6 outros usuários)
+     - Senha padrão para todos: password
+   
+   - Conteúdo gerado automaticamente:
+     - 3 posts por usuário
+     - 1-5 comentários por post
+     - 1-5 curtidas por post
+
 6. Configure as permissões:
 ```bash
 docker-compose exec app chown -R www-data:www-data storage bootstrap/cache

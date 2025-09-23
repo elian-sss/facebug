@@ -57,6 +57,28 @@ DB_PASSWORD=sua_senha
 php database/setup.php
 ```
 
+### Dados de Exemplo
+
+Após executar o seeder, os seguintes dados estarão disponíveis para teste:
+
+#### Usuários
+- **Administrador**
+  - Email: elian@example.com
+  - Senha: password
+
+- **Usuários de Teste**
+  - maria@exemplo.com
+  - joao@exemplo.com
+  - ana@exemplo.com
+  - pedro@exemplo.com
+  - (e mais 6 usuários gerados automaticamente)
+  - Senha padrão para todos: password
+
+#### Conteúdo
+- 3 posts por usuário
+- 1-5 comentários aleatórios por post
+- 1-5 curtidas aleatórias por post
+
 ## Desenvolvimento
 
 1. Inicie o servidor de desenvolvimento Laravel:

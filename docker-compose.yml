@@ -13,9 +13,16 @@ services:
       - ./:/var/www
     networks:
       - facebug_network
+    environment:
+      - DB_HOST=mysql
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   # Servidor Web Nginx
   nginx:
@@ -50,6 +57,11 @@ services:
       - "3306:3306"
     networks:
       - facebug_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   # Redis para Cache
   redis:

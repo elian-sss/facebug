@@ -38,4 +38,14 @@ WORKDIR /var/www
 # Copy custom php.ini settings
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
 
+# Copy start script
+COPY docker/scripts/start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+# Install MySQL client for healthcheck
+RUN apt-get update && apt-get install -y default-mysql-client && apt-get clean
+
 USER $user
+
+# Set entrypoint
+ENTRYPOINT ["/usr/local/bin/start.sh"]
