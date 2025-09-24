@@ -14,6 +14,7 @@ class PostFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'title' => $this->faker->sentence(rand(3, 8)),
             'content' => $this->faker->paragraph(rand(1, 3)),
             'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
             'updated_at' => function (array $attributes) {
