@@ -46,10 +46,14 @@ const toggleComments = (postId) => {
     expandedPostId.value = expandedPostId.value === postId ? null : postId;
 };
 
-// const handleDelete = (postId) => {
-//     form.id = postId
-//     form.delete('/post')
-// }
+const handleDelete = (postId: number) => {
+    const confirmDelete = confirm('Tem certeza que deseja deletar este post?');
+    if (!confirmDelete) return;
+    const url = `/posts/${postId}`;
+    useForm({}).delete(url, {
+        preserveScroll: true,
+    });
+}
 </script>
 
 <template>
@@ -88,7 +92,7 @@ const toggleComments = (postId) => {
                     <div class="mt-4">
                         <button @click="handleLike((post as any).id)" class="mr-4 text-blue-500 hover:underline">Curtir ({{ (post as any).likes.length }})</button>
                         <button @click="toggleComments((post as any).id)" class="mr-4 text-green-500 hover:underline">Comentar ({{ (post as any).comments.length }})</button>
-                        <button v-if="(post as any).user_id === ($page.props as any).auth.user.id" class="text-red-500 hover:underline">
+                        <button @click="handleDelete((post as any).id)" v-if="(post as any).user_id === ($page.props as any).auth.user.id" class="text-red-500 hover:underline">
                             Deletar
                         </button>
                     </div>
