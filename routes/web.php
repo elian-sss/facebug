@@ -22,6 +22,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('likes', [\App\Http\Controllers\LikeController::class, 'store'])->name('likes.store');
 
     Route::get('/users/{user:name}', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
+
+    Route::get('/search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search');
 });
 
 require __DIR__.'/settings.php';
