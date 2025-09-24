@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue'; // 1. Importe 'computed' from Vue
 import { useForm, usePage } from '@inertiajs/vue3';
 import CommentSection from '@/components/CommentSection.vue';
 
@@ -9,6 +9,14 @@ const props = defineProps({
 
 const page = usePage();
 const isCommentsVisible = ref(false);
+const authUser = (page.props as any).auth.user;
+
+const isLikedByMe = computed(() => {
+    if (!authUser || !(props.post as any).likes) {
+        return false;
+    }
+    return (props.post as any).likes.some((like: any) => like.user_id === authUser.id);
+});
 
 const handleLike = () => {
     useForm({ id: props.post!.id }).post('/likes', { preserveScroll: true });
@@ -47,10 +55,15 @@ const formatDateTime = (dateString: string) => {
         <p class="mb-4 text-gray-700 dark:text-gray-300">{{ (post as any).content }}</p>
 
         <div class="flex items-center gap-6 text-gray-600 dark:text-gray-400">
-            <button @click="handleLike" class="flex items-center gap-1 transition hover:text-blue-500">
-                <i class='bx bxs-heart text-xl'></i>
+            <button
+                @click="handleLike"
+                class="flex items-center gap-1 transition"
+                :class="isLikedByMe ? 'text-red-500' : 'hover:text-red-500'"
+            >
+                <i class='bx text-xl' :class="isLikedByMe ? 'bxs-heart' : 'bx-heart'"></i>
                 <span>{{ (post as any).likes.length }}</span>
             </button>
+
             <button @click="isCommentsVisible = !isCommentsVisible" class="flex items-center gap-1 transition hover:text-green-500">
                 <i class='bx bxs-comment text-xl'></i>
                 <span>{{ (post as any).comments.length }}</span>
