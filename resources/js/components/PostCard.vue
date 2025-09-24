@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'; // 1. Importe 'computed' from Vue
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage, Link } from '@inertiajs/vue3';
 import CommentSection from '@/components/CommentSection.vue';
 
 const props = defineProps({
@@ -46,7 +46,9 @@ const formatDateTime = (dateString: string) => {
                 {{ (post as any).user.name.charAt(0) }}
             </div>
             <div>
-                <p class="font-bold text-gray-900 dark:text-white">{{ (post as any).user.name }}</p>
+                <Link :href="`/users/${(post as any).user.name}`" class="font-bold text-gray-900 transition hover:underline dark:text-white">
+                    {{ (post as any).user.name }}
+                </Link>
                 <p class="text-sm text-gray-500 dark:text-gray-400">{{ formatDateTime((post as any).created_at) }}</p>
             </div>
         </div>

@@ -20,6 +20,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('comments', \App\Http\Controllers\CommentController::class)->only(['store', 'update', 'destroy']);
 
     Route::post('likes', [\App\Http\Controllers\LikeController::class, 'store'])->name('likes.store');
+
+    Route::get('/users/{user:name}', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
 });
 
 require __DIR__.'/settings.php';
