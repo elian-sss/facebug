@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, Link } from '@inertiajs/vue3';
 import PostCard from '@/components/PostCard.vue';
 import Pagination from '@/components/Pagination.vue'; // 1. Importe o novo componente
 
@@ -50,6 +50,15 @@ const unfollow = () => {
                         <button v-else @click="follow" class="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700">
                             Seguir
                         </button>
+
+                        <Link
+                            :href="`/chat/with/${(user as any).id}`"
+                            method="post"
+                            as="button"
+                            class="ml-2 rounded-lg bg-green-600 px-4 py-2 font-semibold text-white transition hover:bg-green-700"
+                        >
+                            Mensagem
+                        </Link>
                     </div>
                 </div>
 

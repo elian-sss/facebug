@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'follower_user', 'following_id', 'follower_id');
     }
+
+    public function conversations()
+    {
+        return $this->belongsToMany(Conversation::class);
+    }
 }

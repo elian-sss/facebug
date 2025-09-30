@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\FeedController;
@@ -28,6 +30,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search');
 
     Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/{conversation}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/with/{user}', [ChatController::class, 'store'])->name('chat.store');
+    Route::post('/chat/{conversation}/messages', [MessageController::class, 'store'])->name('messages.store');
 });
 
 require __DIR__.'/settings.php';
