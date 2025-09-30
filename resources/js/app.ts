@@ -1,3 +1,4 @@
+import './bootstrap'
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
@@ -8,6 +9,11 @@ import { initializeTheme } from './composables/useAppearance';
 
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import { configureEcho } from '@laravel/echo-vue';
+
+configureEcho({
+    broadcaster: 'reverb',
+});
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

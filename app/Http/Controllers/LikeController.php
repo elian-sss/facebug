@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Notifications\NewLikeNotification;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
@@ -10,23 +12,29 @@ class LikeController extends Controller
     {
         try {
             $request->validate([
-            'id' => 'required|exists:posts,id',
+                'id' => 'required|exists:posts,id',
             ]);
 
-            $like = $request->user()->likes()->where('post_id', $request->id)->first();
+            $user = $request->user();
+            $post = Post::findOrFail($request->id); //
+            $like = $user->likes()->where('post_id', $post->id)->first();
 
             if ($like) {
                 $like->delete();
-                return back()->with('success',  'Post descurtido');
+                return back()->with('success', 'Post descurtido');
             } else {
-                $request->user()->likes()->create([
-                    'post_id' => $request->id,
+                $user->likes()->create([
+                    'post_id' => $post->id,
                 ]);
+
+                if ($user->id !== $post->user_id) {
+                    $post->user->notify(new NewLikeNotification($user, $post));
+                }
+
                 return back()->with('success', 'Post curtido');
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro ao processar o like: ' . $e->getMessage()], 500);
+            return back()->with('error', 'Erro ao processar o like: ' . $e->getMessage());
         }
-
     }
 }

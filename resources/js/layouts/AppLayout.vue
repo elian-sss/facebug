@@ -51,6 +51,23 @@ interface Props {
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
+
+const user = page.props.auth.user;
+
+onMounted(() => {
+    if (user) {
+        // Conecta ao canal privado do usuário logado
+        window.Echo.private(`App.Models.User.${user.id}`)
+            .notification((notification) => {
+                console.log(notification); // Ótimo para depuração!
+
+                // Exibe a notificação usando a biblioteca que já temos!
+                toast.info(notification.message);
+
+                // Aqui você poderia também incrementar um contador de notificações, etc.
+            });
+    }
+});
 </script>
 
 <template>
