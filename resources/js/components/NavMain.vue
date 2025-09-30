@@ -17,9 +17,16 @@ const page = usePage();
         <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton as-child :is-active="urlIsActive(item.href, page.url)" :tooltip="item.title">
-                    <Link :href="item.href">
-                        <component :is="item.icon" />
-                        <span>{{ item.title }}</span>
+                    <Link :href="item.href" class="flex items-center w-full gap-3">
+                        <component :is="item.icon" class="h-5 w-5 flex-shrink-0" />
+                        <span class="flex-grow">{{ item.title }}</span>
+
+                        <span
+                            v-if="item.badge && item.badge > 0"
+                            class="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+                        >
+                            {{ item.badge }}
+                        </span>
                     </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>

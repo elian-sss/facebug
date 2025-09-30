@@ -26,6 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/users/{user}/unfollow', [\App\Http\Controllers\FollowController::class, 'destroy'])->name('users.unfollow');
 
     Route::get('/search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search');
+
+    Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
 });
 
 require __DIR__.'/settings.php';

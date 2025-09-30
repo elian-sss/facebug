@@ -5,9 +5,12 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Search } from 'lucide-vue-next';
+import { Link, usePage } from '@inertiajs/vue3';
+import { LayoutGrid, Search, Bell } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+import { computed } from 'vue';
+
+const unreadNotificationsCount = computed(() => usePage().props.unreadNotificationsCount as number);
 
 const mainNavItems: NavItem[] = [
     {
@@ -19,6 +22,12 @@ const mainNavItems: NavItem[] = [
         title: 'Pesquisar',
         href: '/search',
         icon: Search,
+    },
+    {
+        title: 'Notificações',
+        href: '/notifications',
+        icon: Bell,
+        badge: unreadNotificationsCount,
     },
 ];
 

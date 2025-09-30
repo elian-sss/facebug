@@ -54,18 +54,21 @@ withDefaults(defineProps<Props>(), {
 
 const user = page.props.auth.user;
 
+const userChannel = `App.Models.User.${user.id}`;
+
 onMounted(() => {
     if (user) {
-        // Conecta ao canal privado do usuário logado
-        window.Echo.private(`App.Models.User.${user.id}`)
+        window.Echo.private(userChannel)
             .notification((notification) => {
-                console.log(notification); // Ótimo para depuração!
-
-                // Exibe a notificação usando a biblioteca que já temos!
+                console.log(notification);
                 toast.info(notification.message);
-
-                // Aqui você poderia também incrementar um contador de notificações, etc.
             });
+    }
+});
+
+onUnmounted(() => {
+    if (user) {
+        window.Echo.leave(userChannel);
     }
 });
 </script>

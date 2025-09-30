@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Notifications\NewCommentNotification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -14,10 +16,17 @@ class CommentController extends Controller
             'post_id' => 'required|exists:posts,id',
             ]);
 
-            $comment = $request->user()->comments()->create([
+            $commenter = $request->user();
+            $post = Post::findOrFail($request->post_id);
+
+            $comment = $post->comments()->create([
                 'content' => $request->content,
-                'post_id' => $request->post_id,
+                'user_id' => $commenter->id,
             ]);
+
+            if ($commenter->id !== $post->user_id) {
+                $post->user->notify(new NewCommentNotification($commenter, $comment, $post));
+            }
 
             return back()->with('success', 'Comentário adicionado com sucesso.');
         } catch (\Exception $e) {
