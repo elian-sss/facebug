@@ -15,9 +15,13 @@ class ProfileController extends Controller
             ->latest()
             ->paginate(10);
 
+        // Verifica se o usuário autenticado segue o usuário do perfil
+        $isFollowed = auth()->user() ? auth()->user()->following->contains($user->id) : false;
+
         return inertia('profile/show', [
-            'user' => $user,
+            'user' => $user->loadCount(['posts', 'followers', 'following']),
             'posts' => $posts,
+            'isFollowed' => $isFollowed, // Envia o status para o frontend
         ]);
     }
 }

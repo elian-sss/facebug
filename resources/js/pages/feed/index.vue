@@ -2,8 +2,11 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import PostCard from '@/components/PostCard.vue';
+import UserSuggestionCard from '@/components/UserSuggestionCard.vue';
+
 defineProps({
     posts: Array,
+    suggestedUsers: Array,
 });
 
 const form = useForm({
@@ -56,9 +59,23 @@ const submit = () => {
                 />
             </div>
 
-            <div v-else class="text-center text-gray-500 dark:text-gray-400 py-10">
+            <div v-else-if="!suggestedUsers || suggestedUsers.length === 0" class="text-center text-gray-500 dark:text-gray-400 py-10">
                 <p class="text-xl">Nenhum post por aqui ainda.</p>
-                <p>Seja o primeiro a compartilhar algo!</p>
+                <p>Compartilhe algo ou explore para encontrar outros usuários!</p>
+            </div>
+
+            <div v-if="suggestedUsers && suggestedUsers.length > 0" class="my-6">
+                <div class="text-center text-gray-600 dark:text-gray-300 mb-6">
+                    <h2 class="text-2xl font-bold">Sugestões para você seguir</h2>
+                    <p class="mt-2">Conecte-se com outras pessoas para ver os posts delas no seu feed.</p>
+                </div>
+                <div class="space-y-4 max-w-lg mx-auto">
+                    <UserSuggestionCard
+                        v-for="user in suggestedUsers"
+                        :key="(user as any).id"
+                        :user="user"
+                    />
+                </div>
             </div>
         </div>
     </AppLayout>
